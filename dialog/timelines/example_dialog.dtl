@@ -1,0 +1,28 @@
+mushroom: Chào Cáo! Ta đang thử cú pháp của Dialogic.[pause=0.5] Cáo sẵn sàng chưa?
+foxy: Sẵn sàng! Thử một câu viết trên nhiều dòng. \
+Đây là dòng thứ hai, \
+và dòng thứ ba!
+mushroom: Ta cho Cáo 10 điểm để bắt đầu.
+set {PlayerScore} = 10
+label Menu (Chọn lại)
+- Tăng điểm | [if {PlayerScore} < 20]
+	set {PlayerScore} += 10
+	foxy: Điểm tăng rồi! Bây giờ là {PlayerScore}.
+- Giảm điểm | [if {PlayerScore} > 5] [else="disable"]
+	set {PlayerScore} -= 5
+	mushroom: Điểm giảm còn {PlayerScore}, cẩn thận!
+- Đi tiếp
+if {PlayerScore} >= 10:
+	mushroom: Điểm cao! Cáo giỏi đấy.
+elif {PlayerScore} == 5:
+	foxy: Điểm thấp quá, chọn lại thôi.
+	jump Menu
+else:
+	mushroom: Điểm thấp, chọn lại nhé.
+	jump Menu
+mushroom: Vừa rồi là biến, lựa chọn, điều kiện và jump. \
+[pause=1] Giờ tới gọi hàm của game.
+do GameManager.unlock_door("example")
+if GameManager.is_door_unlocked("example"):
+	foxy: GameManager đã ghi cờ "example" — và lưu luôn vào file lưu.
+[end_timeline]

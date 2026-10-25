@@ -1,0 +1,81 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://levels/objects/checkpoint/checkpoint.gd" id="1_checkpoint"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_01.png" id="2_idle1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_02.png" id="3_idle2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_03.png" id="4_idle3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_04.png" id="5_idle4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_05.png" id="6_idle5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_idle_06.png" id="7_idle6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_turn_01.png" id="8_turn1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_turn_02.png" id="9_turn2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_turn_03.png" id="10_turn3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/ship_helm/ship_helm_turn_04.png" id="11_turn4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_helm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_idle1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_idle2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_idle3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_idle4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_idle5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_idle6")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_turn1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_turn2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_turn3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_turn4")
+}],
+"loop": true,
+"name": &"turn",
+"speed": 10.0
+}]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_touch"]
+size = Vector3(1.8, 2, 1.8)
+
+[node name="Checkpoint" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_checkpoint")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+offset = Vector2(0, 16)
+pixel_size = 0.0625
+billboard = 1
+shaded = true
+alpha_cut = 1
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_helm")
+animation = &"idle"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_touch")
+
+[node name="Spawn" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 2)

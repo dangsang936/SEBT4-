@@ -1,0 +1,118 @@
+[gd_scene format=3 uid="uid://yelicffn6hv2"]
+
+[ext_resource type="Script" uid="uid://d2g47jkbtln4" path="res://levels/stage.gd" id="1_stage"]
+[ext_resource type="MeshLibrary" uid="uid://ohm3771jyopt" path="res://assets/meshes/forest_library.meshlib" id="2_forest"]
+[ext_resource type="PackedScene" uid="uid://cmmjhllqibaoc" path="res://scenes/objects/palm_tree.tscn" id="3_palm"]
+[ext_resource type="PackedScene" uid="uid://clxulon4q7jr" path="res://scenes/player/player.tscn" id="4_player"]
+[ext_resource type="PackedScene" path="res://scenes/camera/camera_rig.tscn" id="5_camera"]
+[ext_resource type="PackedScene" uid="uid://3i2cauq76cic" path="res://scenes/enemies/mushroom/mushroom.tscn" id="6_mushroom"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/crab/crab.tscn" id="7_crab"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/starfish/starfish.tscn" id="8_starfish"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/barrel/barrel.tscn" id="9_barrel"]
+[ext_resource type="PackedScene" path="res://scenes/objects/trap.tscn" id="10_trap"]
+[ext_resource type="PackedScene" uid="uid://65gpamtlsq5j" path="res://scenes/objects/sea_water.tscn" id="11_sea"]
+[ext_resource type="PackedScene" path="res://levels/objects/kill_zone/kill_zone.tscn" id="12_kill"]
+[ext_resource type="PackedScene" path="res://levels/objects/door/door.tscn" id="13_door"]
+[ext_resource type="PackedScene" path="res://levels/objects/checkpoint/checkpoint.tscn" id="14_checkpoint"]
+[ext_resource type="Script" uid="uid://bftymc1vrciba" path="res://levels/objects/arena/arena_lock.gd" id="15_arena"]
+[ext_resource type="Script" uid="uid://ddrqk72ngkeg7" path="res://scripts/grid_pathfinder.gd" id="16_pathfinder"]
+
+[sub_resource type="Environment" id="Environment_arena"]
+ambient_light_source = 3
+ambient_light_color = Color(0.95596343, 0.9559633, 0.95596343, 1)
+ambient_light_sky_contribution = 0.8
+ambient_light_energy = 0.56
+
+[node name="Stage" type="Node3D" unique_id=662773918]
+script = ExtResource("1_stage")
+
+[node name="World" type="GridMap" parent="." unique_id=265165568]
+mesh_library = ExtResource("2_forest")
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(0, 0, 1, 0, 1, 1, 0, 2, 2, 0, 3, 3, 0, 4, 0, 0, 5, 0, 0, 6, 3, 0, 7, 2, 0, 8, 1, 0, 9, 1, 0, 10, 3, 0, 11, 3, 1, 0, 3, 1, 1, 1, 1, 2, 1, 1, 3, 1, 1, 4, 3, 1, 5, 0, 1, 6, 0, 1, 7, 1, 1, 8, 0, 1, 9, 2, 1, 10, 0, 1, 11, 2, 2, 0, 3, 2, 1, 3, 2, 2, 3, 2, 3, 3, 2, 4, 3, 2, 5, 1, 2, 6, 2, 2, 7, 0, 2, 8, 0, 2, 9, 1, 2, 10, 3, 2, 11, 1, 3, 0, 2, 3, 1, 3, 3, 2, 2, 3, 3, 3, 3, 4, 3, 3, 5, 2, 3, 6, 3, 3, 7, 1, 3, 8, 2, 3, 9, 0, 3, 10, 2, 3, 11, 1, 4, 0, 2, 4, 1, 0, 4, 2, 1, 4, 3, 2, 4, 4, 2, 4, 5, 0, 4, 6, 0, 4, 7, 3, 4, 8, 3, 4, 9, 0, 4, 10, 2, 4, 11, 0, 5, 0, 3, 5, 1, 1, 5, 2, 0, 5, 3, 2, 5, 4, 3, 5, 5, 3, 5, 6, 0, 5, 7, 0, 5, 8, 0, 5, 9, 3, 5, 10, 2, 5, 11, 2, 6, 0, 1, 6, 1, 0, 6, 2, 2, 6, 3, 0, 6, 4, 0, 6, 5, 0, 6, 6, 0, 6, 7, 1, 6, 8, 3, 6, 9, 2, 6, 10, 2, 6, 11, 1, 7, 0, 0, 7, 1, 2, 7, 2, 2, 7, 3, 2, 7, 4, 1, 7, 5, 3, 7, 6, 3, 7, 7, 3, 7, 8, 3, 7, 9, 0, 7, 10, 2, 7, 11, 3, 8, 0, 1, 8, 1, 2, 8, 2, 3, 8, 3, 2, 8, 4, 2, 8, 5, 2, 8, 6, 0, 8, 7, 3, 8, 8, 2, 8, 9, 0, 8, 10, 3, 8, 11, 1, 9, 0, 0, 9, 1, 2, 9, 2, 3, 9, 3, 2, 9, 4, 2, 9, 5, 2, 9, 6, 3, 9, 7, 0, 9, 8, 0, 9, 9, 0, 9, 10, 2, 9, 11, 2, 10, 0, 3, 10, 1, 2, 10, 2, 2, 10, 3, 1, 10, 4, 2, 10, 5, 1, 10, 6, 2, 10, 7, 2, 10, 8, 2, 10, 9, 2, 10, 10, 3, 10, 11, 0, 11, 0, 0, 11, 1, 1, 11, 2, 2, 11, 3, 1, 11, 4, 2, 11, 5, 1, 11, 6, 2, 11, 7, 1, 11, 8, 3, 11, 9, 0, 11, 10, 0, 11, 11, 2, 65535, 65535, 655390, -1, 65535, 655384, -65537, 65535, 655381, 65535, 12, 1441822, -1, 12, 1441816, -65537, 12, 1441813, 12, 65535, 1048606, -65524, 65535, 1048600, -131060, 65535, 1048597, 12, 12, 30, -65524, 12, 24, -131060, 12, 21, 65535, 0, 1441821, -1, 0, 1441815, -65537, 0, 1441812, 12, 0, 1048605, -65524, 0, 1048599, -131060, 0, 1048596, 65535, 1, 1441821, -1, 1, 1441815, -65537, 1, 1441812, 12, 1, 1048605, -65524, 1, 1048599, -131060, 1, 1048596, 65535, 2, 1441821, -1, 2, 1441815, -65537, 2, 1441812, 12, 2, 1048605, -65524, 2, 1048599, -131060, 2, 1048596, 65535, 3, 1441821, -1, 3, 1441815, -65537, 3, 1441812, 12, 3, 1048605, -65524, 3, 1048599, -131060, 3, 1048596, 65535, 4, 1441821, -1, 4, 1441815, -65537, 4, 1441812, 12, 4, 1048605, -65524, 4, 1048599, -131060, 4, 1048596, 65535, 5, 1441821, -1, 5, 1441815, -65537, 5, 1441812, 12, 5, 1048605, -65524, 5, 1048599, -131060, 5, 1048596, 65535, 6, 1441821, -1, 6, 1441815, -65537, 6, 1441812, 12, 6, 1048605, -65524, 6, 1048599, -131060, 6, 1048596, 65535, 7, 1441821, -1, 7, 1441815, -65537, 7, 1441812, 12, 7, 1048605, -65524, 7, 1048599, -131060, 7, 1048596, 65535, 8, 1441821, -1, 8, 1441815, -65537, 8, 1441812, 12, 8, 1048605, -65524, 8, 1048599, -131060, 8, 1048596, 65535, 9, 1441821, -1, 9, 1441815, -65537, 9, 1441812, 12, 9, 1048605, -65524, 9, 1048599, -131060, 9, 1048596, 65535, 10, 1441821, -1, 10, 1441815, -65537, 10, 1441812, 12, 10, 1048605, -65524, 10, 1048599, -131060, 10, 1048596, 65535, 11, 1441821, -1, 11, 1441815, -65537, 11, 1441812, 12, 11, 1048605, -65524, 11, 1048599, -131060, 11, 1048596, 0, 65535, 655389, -65536, 65535, 655383, -131072, 65535, 655380, 0, 12, 29, -65536, 12, 23, -131072, 12, 20, 1, 65535, 655389, -65535, 65535, 655383, -131071, 65535, 655380, 1, 12, 29, -65535, 12, 23, -131071, 12, 20, 2, 65535, 655389, -65534, 65535, 655383, -131070, 65535, 655380, 2, 12, 29, -65534, 12, 23, -131070, 12, 20, 3, 65535, 655389, -65533, 65535, 655383, -131069, 65535, 655380, 3, 12, 29, -65533, 12, 23, -131069, 12, 20, 4, 65535, 655389, -65532, 65535, 655383, -131068, 65535, 655380, 4, 12, 29, -65532, 12, 23, -131068, 12, 20, 5, 65535, 655389, -65531, 65535, 655383, -131067, 65535, 655380, 5, 12, 29, -65531, 12, 23, -131067, 12, 20, 6, 65535, 655389, -65530, 65535, 655383, -131066, 65535, 655380, 6, 12, 29, -65530, 12, 23, -131066, 12, 20, 7, 65535, 655389, -65529, 65535, 655383, -131065, 65535, 655380, 7, 12, 29, -65529, 12, 23, -131065, 12, 20, 8, 65535, 655389, -65528, 65535, 655383, -131064, 65535, 655380, 8, 12, 29, -65528, 12, 23, -131064, 12, 20, 9, 65535, 655389, -65527, 65535, 655383, -131063, 65535, 655380, 9, 12, 29, -65527, 12, 23, -131063, 12, 20, 10, 65535, 655389, -65526, 65535, 655383, -131062, 65535, 655380, 10, 12, 29, -65526, 12, 23, -131062, 12, 20, 11, 65535, 655389, -65525, 65535, 655383, -131061, 65535, 655380, 11, 12, 29, -65525, 12, 23, -131061, 12, 20)
+}
+
+[node name="PalmTree" parent="." unique_id=1525391408 groups=["path_blockers"] instance=ExtResource("3_palm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 19)
+
+[node name="PalmTree2" parent="." unique_id=31057087 groups=["path_blockers"] instance=ExtResource("3_palm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1, 3)
+
+[node name="PalmTree3" parent="." unique_id=365692240 groups=["path_blockers"] instance=ExtResource("3_palm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1, 21)
+
+[node name="Enemies" type="Node3D" parent="." unique_id=1453923128]
+
+[node name="Mushroom" parent="Enemies" unique_id=2115663918 instance=ExtResource("6_mushroom")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.2, 14)
+direction = "right"
+
+[node name="Mushroom2" parent="Enemies" unique_id=1526425564 instance=ExtResource("6_mushroom")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.2, 9)
+direction = "left"
+
+[node name="Crab" parent="Enemies" unique_id=634848404 instance=ExtResource("7_crab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.2, 20)
+direction = "right"
+
+[node name="Crab2" parent="Enemies" unique_id=1742146759 instance=ExtResource("7_crab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 1.2, 17)
+direction = "left"
+
+[node name="Starfish" parent="Enemies" unique_id=1100453174 instance=ExtResource("8_starfish")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 13)
+
+[node name="Barrel" parent="Enemies" unique_id=1095509802 instance=ExtResource("9_barrel")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21, 1.2, 21)
+bullet_speed = 12.0
+direction = "left"
+
+[node name="Bullets" type="Node3D" parent="." unique_id=411217846]
+
+[node name="Trap" parent="." unique_id=437541809 instance=ExtResource("10_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 9)
+
+[node name="Trap2" parent="." unique_id=1443470642 instance=ExtResource("10_trap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 15)
+
+[node name="Player" parent="." unique_id=2098483748 instance=ExtResource("4_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.2, 5)
+
+[node name="CameraRig" parent="." unique_id=1832668067 node_paths=PackedStringArray("target") instance=ExtResource("5_camera")]
+target = NodePath("../Player")
+
+[node name="Sea" parent="." unique_id=205864723 instance=ExtResource("11_sea")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -3, 12)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=730049273]
+transform = Transform3D(0.81915206, 0.46984634, -0.32898995, 0, 0.57357645, 0.81915206, 0.57357645, -0.6710101, 0.46984634, 0, 0, 0)
+light_energy = 0.286
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1654754565]
+environment = SubResource("Environment_arena")
+
+[node name="KillZone" parent="." unique_id=500074471 instance=ExtResource("12_kill")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -5, 12)
+
+[node name="Door" parent="." unique_id=479699278 instance=ExtResource("13_door")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 0.5)
+id = "to_stage_2"
+target_stage = "res://levels/level_1/stage_2.tscn"
+target_door = "to_stage_3"
+locked = true
+unlock_flag = "arena_cleared"
+locked_timeline = "arena_locked"
+
+[node name="Checkpoint" parent="." unique_id=662498876 instance=ExtResource("14_checkpoint")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 5)
+id = "arena"
+
+[node name="ArenaLock" type="Node" parent="." unique_id=1608372722 node_paths=PackedStringArray("enemies")]
+script = ExtResource("15_arena")
+enemies = NodePath("../Enemies")
+
+[node name="Pathfinder" type="Node" parent="." unique_id=1233474318 node_paths=PackedStringArray("floor_map")]
+script = ExtResource("16_pathfinder")
+floor_map = NodePath("../World")
